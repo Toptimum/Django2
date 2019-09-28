@@ -1,0 +1,14 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: 
+ =?utf-8?b?0J/QvtC00YLQstC10YDQttC00LXQvdC40LUg0YPRh9C10YLQvdC+0Lkg0LfQsNC/?=
+ =?utf-8?b?0LjRgdC4IGxvZ2luNTQ4Nzk=?=
+From: django@geekshop.local
+To: pochta@testovaya.ru
+Date: Sat, 24 Aug 2019 10:45:10 -0000
+Message-ID: <156664351021.9812.17502964261234778373@DESKTOP-UD6PDET>
+
+Для подтверждения учетной записи login54879 на сайте http://localhost:8000 перейдите по ссылке: 
+http://localhost:8000/auth/verify/pochta@testovaya.ru/e64bc0ed3323bb4f1a630a3dfebe557e7c309c84/
+-------------------------------------------------------------------------------

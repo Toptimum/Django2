@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400,700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/9ece0e8aef.js"></script>
+    <link rel="shortcut icon" href="{% static 'images/favicon.jpg' %}" type="image/jpg">
+    <title>{% block title_page %}{{ title }}{% endblock %}</title>
+    {% block js %}
+        <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+        <script src="{% static 'js/basket_scripts.js' %}"></script>
+    {% endblock %}
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="top">
+            <!-- Header -->
+            <div class="{% block type_header %}header_inner_pages{% endblock %} padding_site">
+                {% include 'mainapp/includes/inc_main_menu.html' %}
+                <h1 class="title_inner_page">{{ header1_page }}</h1>
+            </div>
+            {% block content %}
+            {% endblock %}
+        </div>
+
+        <!-- Footer -->
+        {% block footer %}
+        <footer class="footer padding_site">
+            <div class="footer_first_block">
+                <div class="footer_contact_us">
+                    <p class="footer_contact_us_title">Наши контакты</p>
+                    <p class="footer_contact_us_address">г. Москва,<br>Севастопольский пр-кт, д. 29</p>
+                    <p class="footer_contact_us_phone">метро Нагорная, Крымская</p>
+                    <p class="footer_contact_us_mail"><a class="footer_contact_us_mail_a" href="mailto:info@myphone.ru" title="Написать письмо">info@myphone.ru</a></p>
+                </div>
+                {%  include 'mainapp/includes/inc_footer_menu.html' %}
+                <div class="footer_subscribe">
+                    <p class="footer_subscribe_title">Оставайтесь с нами!</p>
+                    <p class="footer_subscribe_description">Подишитесь на рассылку и в числе первых узнаете о выгодных акциях и скидках на телефоны!</p>
+                    <form action="#" class="footer_subscribe_form">
+                        <input type="email" class="footer_subscribe_input" placeholder="Введите вашу почту" maxlength="43">
+                        <a href="#" class="footer_subscribe_button" title="Подписаться на рассылку писем"><i class="fab fa-telegram-plane"></i></a>
+                    </form>
+                </div>
+            </div>
+            <div class="footer_second_block">
+                <p class="footer_copyright">Житников Тарас &copy; {% now "Y" %} Все права защищены</p>
+                <ul class="footer_social_networks">
+                    <li class="footer_social_networks_li"><a href="#" class="footer_social_networks_a" title="Перейти на страницу в Instagram"><i class="fab fa-instagram"></i></a></li>
+                    <li class="footer_social_networks_li"><a href="#" class="footer_social_networks_a" title="Перейти на страницу в Вконтакте"><i class="fab fa-vk"></i></a></li>
+                    <li class="footer_social_networks_li"><a href="#" class="footer_social_networks_a" title="Перейти на страницу в Facebook"><i class="fab fa-facebook-square"></i></a></li>
+                    <li class="footer_social_networks_li"><a href="#" class="footer_social_networks_a" title="Перейти на страницу в Одноклассники"><i class="fab fa-odnoklassniki-square"></i></a>
+                    </li>
+                    <li class="footer_social_networks_li"><a href="#" class="footer_social_networks_a" title="Перейти на страницу в Twitter"><i class="fab fa-twitter-square"></i></a></li>
+                </ul>
+                <p class="footer_terms_privacy">
+                    <a href="#" class="footer_terms_privacy_a">Правила обслуживания</a> / <a href="#" class="footer_terms_privacy_a">Конфиденциальность</a>
+                </p>
+            </div>
+        </footer>
+        {% endblock %}
+    </div>
+</body>
+
+</html>

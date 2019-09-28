@@ -1,0 +1,25 @@
+<!--div class="footer_useful_info">
+    <p class="footer_useful_info_title">Полезная информация</p>
+    <ul class="footer_useful_info_menu">
+        <li class="footer_useful_info_menu_li"><a href="#" class="footer_useful_info_menu_a">Оплата</a></li>
+        <li class="footer_useful_info_menu_li"><a href="#" class="footer_useful_info_menu_a">Личный кабинет</a></li>
+        <li class="footer_useful_info_menu_li"><a href="#" class="footer_useful_info_menu_a">Доставка</a></li>
+        <li class="footer_useful_info_menu_li"><a href="#" class="footer_useful_info_menu_a">Условия возврата</a></li>
+        <li class="footer_useful_info_menu_li"><a href="#" class="footer_useful_info_menu_a">Гарантия</a></li>
+        <li class="footer_useful_info_menu_li"><a href="#" class="footer_useful_info_menu_a">Скидки и бонусы</a></li>
+    </ul>
+</div-->
+
+<div class="footer_useful_info">
+    <p class="footer_useful_info_title">Полезная информация</p>
+    <ul class="footer_useful_info_menu">
+        {% if user.is_authenticated %}
+            <li class="footer_useful_info_menu_li"><a href="{% url 'auth:update' %}" class="footer_useful_info_menu_a">Изменить данные</a></li>
+        {% else %}
+            <li class="footer_useful_info_menu_li"><a href="{% url 'authapp:login' %}" class="footer_useful_info_menu_a">Авторизоваться</a></li>
+        {% endif %}
+        {% for page in info_pages %}
+        <li class="footer_useful_info_menu_li"><a href="{% url 'main:infopage' page.pk %}" class="footer_useful_info_menu_a{% if request.resolver_match.url_name == 'infopage' and request.resolver_match.kwargs.pk|add:0 == page.pk %}_current{% endif %}">{{ page.name_page }}</a></li>
+        {% endfor %}
+    </ul>
+</div>

@@ -1,0 +1,13 @@
+{% extends 'authapp/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<div class="empty_basket padding_site">
+    {% if user.is_active == True %}
+    <p>Спасибо за регистрацию.<br>Пользователь {{ user.username }} успешно подтвержден.</p>
+    {% else %}
+    <p>К сожалению, аккаунт {{ user.username }} не подтвержден.<br>Возможно, с момента регистрации прошло более 48
+        часов.</p>
+    {% endif %}
+</div>
+{% endblock %}

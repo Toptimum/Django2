@@ -1,0 +1,58 @@
+ВСПОМОГАТЕЛЬНЫЕ КОМАНДЫ:
+
+usertaras
+123taras789
+
+cd /home/usertaras/zhitnikov
+source django2/bin/activate
+
+python manage.py runserver 192.168.0.79
+
+sudo reboot
+sudo systemctl restart gunicorn
+
+siege -f /home/usertaras/zhitnikov/checking_urls.txt -d1 -r5 -c25
+
+
+ПРОФИЛИРОВАНИЕ ПРОЕКТА:
+
+1. Настроили панель отладки http://prntscr.com/p5mm3l
+
+2. Вкладка "Время" http://prntscr.com/p5motj
+
+3. Вкладка "SQL":
+главная                 http://prntscr.com/p5n0s4       22,35 ms (14 запросов including 5 similar and 5 duplicates)
+каталог товаров         http://prntscr.com/p5n155       172,35 ms (15 запросов including 5 similar and 5 duplicates)*
+*При повторном обращении кол-во запросов сократилось, например, на странице каталога товаров http://prntscr.com/p5o97b
+страница товара         http://prntscr.com/p5n1g3       21,28 ms (15 запросов including 5 similar and 5 duplicates)
+корзина                 http://prntscr.com/p5n4u8       21,59 ms (17 запросов including 10 similar and 10 duplicates)
+создание заказа         http://prntscr.com/p5n6hb       15,94 ms (9 запросов including 2 similar and 2 duplicates)
+изменение заказа        http://prntscr.com/p5n5fi       20,82 ms (9 запросов including 4 similar and 2 duplicates)
+
+4. Вкладка "Template Rendering Time":
+главная страница        http://prntscr.com/p5n8f3
+каталог товаров         http://prntscr.com/p5n8x1
+страница товара         http://prntscr.com/p5n9dr
+
+5. Профилирование страницы товара http://prntscr.com/p5nbe4
+
+6. Собрали данные из всех диспетчеров URL проекта http://prntscr.com/p5ocpt
+
+7. Выполнили валидацию шаблонов проекта http://prntscr.com/p5odc1 - 0 error found
+
+8. Визуализировали структуру моделей проекта http://prntscr.com/p5oiz4 (предварительно необходимо выполнить sudo apt-get install graphviz)
+
+9. При нагрузке siege -f /home/usertaras/zhitnikov/checking_urls.txt -d1 -r5 -c25 провалено 220 транзакций http://prntscr.com/p5p048
+
+10. Оптимизировали редактирование заказа с http://prntscr.com/p5pf5f 23,82 ms (16 запросов including 11 similar and 7 duplicates)
+    до 28,01 ms (16 запросов including 11 similar and 7 duplicates) - то есть ухудшили результат, убрал строку .select_related()
+
+11. Оптимизация класса OrderItemsUpdate не дала результат, поэтому новые строки кода удалил.
+
+12. В модели mainapp добавили индексирование полей. На главной странице были такие результаты http://prntscr.com/p5pnl6 22,14 ms (10 запросов),
+    а стали http://prntscr.com/p5posd 17,09 ms (10 запросов), т.е. улучшили результат на 5 мс. Теперь страница http://192.168.0.79/category/1/
+    грузится http://prntscr.com/p5ppn8 18,03 ms (11 запросов), а грузилась за 172,35 ms (см. пункт 3 выше).
+
+
+
+

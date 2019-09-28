@@ -1,0 +1,94 @@
+{% extends 'mainapp/base.html' %}
+{% load staticfiles %}
+{% block type_header %}header_product{% endblock %}
+{% block content %}
+<nav class="navigation_product">
+    <ul class="navigation_product_menu">
+        {% for category in categories %}
+        <li class="navigation_product_menu_li">
+            <a href="{% url 'main:category' category.pk %}"
+               class="navigation_product_menu_a">{{ category.name_category }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</nav>
+
+<main>
+    <div class="content_product padding_site">
+        <div class="content_product_image_block">
+            <a href="#" class="content_product_image_block_a" title="Увеличить изображение"><img
+                    src="/media/{{ product.image_product }}" alt="Главное изображение товара"
+                    class="content_product_image_block_img"></a>
+            <!--ul class="content_product_image_block_preview_list">
+                <li class="content_product_image_block_preview_list_li">
+                    <a href="#" class="content_product_image_block_preview_list_a">
+                        <img src="{% static 'images/other_img_product_blue.jpg' %}" alt=""
+                             class="content_product_image_block_preview_list_img">
+                    </a>
+                </li>
+                <li class="content_product_image_block_preview_list_li">
+                    <a href="#" class="content_product_image_block_preview_list_a">
+                        <img src="{% static 'images/other_img_product_lightblue.jpg' %}" alt=""
+                             class="content_product_image_block_preview_list_img">
+                    </a>
+                </li>
+                <li class="content_product_image_block_preview_list_li">
+                    <a href="#" class="content_product_image_block_preview_list_a">
+                        <img src="{% static 'images/other_img_product_blue.jpg' %}" alt=""
+                             class="content_product_image_block_preview_list_img">
+                    </a>
+                </li>
+                <li class="content_product_image_block_preview_list_li">
+                    <a href="#" class="content_product_image_block_preview_list_a">
+                        <img src="{% static 'images/other_img_product_lightblue.jpg' %}" alt=""
+                             class="content_product_image_block_preview_list_img">
+                    </a>
+                </li>
+            </ul-->
+        </div>
+        <div class="content_product_info_block">
+            <h1 class="content_product_info_block_title">{{ product.name_product }}</h1>
+            {% if product.is_new %}
+            <p class="content_product_info_block_grey_label">Новинка</p>
+            {% endif %}
+            {% if product.is_discount %}
+            <p class="content_product_info_block_red_label">Распродажа</p>
+            {% endif %}
+            {% if product.is_exclusive %}
+            <p class="content_product_info_block_purple_label">Эксклюзив</p>
+            {% endif %}
+            {% if product.is_popular %}
+            <p class="content_product_info_block_green_label">Популярная модель</p>
+            {% endif %}
+            <p>На складе: {{ product.quantity }}</p>
+            <div class="content_product_info_block_price">
+                <p class="content_product_info_block_price_numbers">{{ product.price_product|floatformat:"0" }} <span
+                        class="content_product_info_block_price_currency">руб.</span></p>
+            </div>
+            <a href="{% url 'basket:add' product.pk %}" class="content_product_info_block_button">Купить ></a>
+            <div class="content_product_info_block_description">
+                <p>{{ product.description_product }}</p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- The same products -->
+<div class="trending_products padding_site">
+    <div class="trending_products_titles">
+        <span class="trending_products_title">Похожие смартфоны</span>
+        <a href="{% url 'main:category' 1 %}" class="products_explore_all">Все модели ></a>
+    </div>
+    <ul class="trending_products_6_products_ul">
+        {% for product in same_products|slice:":3" %}
+        <li class="trending_products_6_products_product_li">
+            <a href="{% url 'main:product' product.pk %}" class="trending_products_6_products_product_a"
+               title="{{ product.name_product }} - {{ product.price_product }} руб.">
+                <img src="/media/{{ product.image_product }}" alt="{{ product.name_product }}"
+                     class="trending_products_6_products_product_img">
+            </a>
+            {% endfor %}
+        </li>
+    </ul>
+</div>
+{% endblock %}

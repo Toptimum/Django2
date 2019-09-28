@@ -1,0 +1,49 @@
+{% load staticfiles %}
+<header class="header">
+    <a href="{% url 'main:main' %}" class="header_logo_a" title="Вернуться на Главную">
+        <img src="{% static 'images/logo_myphone.png' %}" alt="Логотип компании Interior" class="header_logo_img">
+    </a>
+    <nav class="header_menu_search">
+        <ul class="header_menu">
+            {% for page in main_menu %}
+            <li class="header_menu_li">
+                {% if page.name_category == 'Все модели' %}
+                <a href="{% url 'main:category' page.pk %}"
+                   class="header_menu_a{% if request.resolver_match.url_name == 'category' and request.resolver_match.kwargs.pk|add:0 == page.pk %}_current
+                   {% endif %}">Смартфоны</a>
+                {% else %}
+                <a href="{% url 'main:infopage' page.pk %}"
+                   class="header_menu_a{% if request.resolver_match.url_name == 'infopage' and request.resolver_match.kwargs.pk|add:0 == page.pk %}_current
+                   {% endif %}">{{ page.name_page }}</a>
+                {% endif %}
+            </li>
+            {% endfor %}
+
+            {% if user.is_superuser %}
+            <li class="header_menu_li"><a href="{% url 'adminapp:index' %}" class="header_menu_a">админка</a></li>
+            {% endif %}
+
+            {% if user.is_authenticated %}
+            <li class="header_menu_li">
+                <a href="{% url 'auth:update' %}" class="header_menu_a">{{ user.first_name|default:'Пользователь' }} ▼</a>
+                <ul class="header_menu_dropdown_menu">
+                    <li class="header_menu_dropdown_menu_li">
+                        <a class="header_menu_dropdown_menu_a" href="{% url 'ordersapp:orders_list' %}" class="header_menu_a">Заказы</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="header_menu_li"><a href="{% url 'authapp:logout' %}" class="header_menu_a">Выйти</a></li>
+            {% else %}
+            <li class="header_menu_li"><a href="{% url 'authapp:login' %}" class="header_menu_a">Войти</a></li>
+            {% endif %}
+        </ul>
+        <div class="header_basket">
+            <a href="{% url 'basket:index' %}" class="header_basket_a" title="Перейти в корзину">
+                <i class="fas fa-shopping-basket"></i>
+                {% if basket %}
+                <sup class="header_basket_a_span">{{ basket.0.get_total_quantity }} шт. = {{ basket.0.get_total_cost }} руб.</sup>
+                {% endif %}
+            </a>
+        </div>
+    </nav>
+</header>

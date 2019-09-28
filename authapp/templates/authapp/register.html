@@ -1,0 +1,14 @@
+{% extends 'authapp/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<!-- enctype обязательно нужен для передачи файлов -->
+<form class="form-horizontal" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <br>
+    <input class="header_textarea_button_slider" type="submit" value="Регистрация">
+    <p>Другие способы регистрации:</p>
+    <a class="header_textarea_button_slider" href="{% url 'social:begin' 'vk-oauth2' %}?next=/">Вход через ВКонтакте</a>
+</form>
+{% endblock %}

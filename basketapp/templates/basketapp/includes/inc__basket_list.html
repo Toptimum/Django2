@@ -1,0 +1,42 @@
+{% load staticfiles %}
+
+{% if not basket %}
+    <div class="empty_basket padding_site">
+        <p>К сожалению, корзина пустая.<br>Выберите крутой смартфон и возвращайтесь сюда;)</p>
+        <a href="/category/1/" class="header_textarea_button_slider">Посмотреть каталог ></a>
+    </div>
+{% else %}
+    <table class="table_basket padding_site">
+        <tr>
+            <th>Фото товара</th>
+            <th>Название товара</th>
+            <th>Цена за единицу</th>
+            <th>Количество</th>
+            <th>Сумма</th>
+            <th>Удалить</th>
+        </tr>
+        {% for item in basket %}
+        <tr>
+            <td><img src="/media/{{ item.product.image_product }}"></td>
+            <td>{{ item.product.name_product }}</td>
+            <td>{{ item.product.price_product }} руб/шт.</td>
+            <td><input class="input_quantity" type="number" name="{{ item.pk }}" min="0" value="{{ item.quantity }}"></td>
+            <td>{{ item.product_cost }} руб.</td>
+            <td><a href="{% url 'basket:delete' item.pk %}" title="Удалить товар">X</a></td>
+        </tr>
+        {% endfor %}
+        {% if basket %}
+        <tr>
+            <th colspan="3">В итоге:</th>
+            <th>товаров<br>{{ basket.0.get_total_quantity }} шт.</th>
+            <th>сумма заказа<br>{{ basket.0.get_total_cost }} руб.</th>
+            <th></th>
+        </tr>
+        <tr>
+            <td colspan="3"></td>
+            <td colspan="2"><a class="header_textarea_button_slider" href="{% url 'ordersapp:order_create' %}">Создать заказ</a></td>
+            <td></td>
+        </tr>
+        {% endif %}
+    </table>
+{% endif %}

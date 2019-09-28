@@ -1,0 +1,38 @@
+Вспомогательные команды:
+python manage.py test
+python manage.py test mainapp
+python manage.py test authapp
+python manage.py dumpdata mainapp -e=contenttypes -e=auth -e=sessions -o test_db_mainapp.json
+python manage.py dumpdata authapp -e=contenttypes -e=auth -e=sessions -o test_db_authapp.json
+
+
+Скрипт выполнения домашки №8:
+
+Продвинутые запросы в Django-ORM
+
+1. Исправили баг - теперь при отключении категории, в заказе нельзя выбрать товары этой категории http://prntscr.com/p7nayu
+
+2. Объект «F» - обновление полей без загрузки значений http://prntscr.com/p7np75
+
+3. Реализовали скидку для категории http://prntscr.com/p7p79w
+
+4. Объект «Q» - логика в запросах http://prntscr.com/p7pfce
+
+5. Сonditional-expressions - логика на уровне QuerySet - и сработало http://prntscr.com/p7plk3 и ошибку выдало, возможно, из-за работы с SQLite.
+
+
+Тестирование в Django
+
+6. Тестирование ответов сервера для страниц сайта: главная, каталоги товаров, инфостраницы и товары http://prntscr.com/p7qdup
+
+7. Тестирование аутентификации пользователя:
+7.1 Тест аутентификации пользователей пройден http://prntscr.com/p82bbp
+7.2 Тест переадресации при доступе к корзине пройден http://prntscr.com/p82cjc
+7.3 Успешно проверяем выход из системы http://prntscr.com/p82dcr
+7.4 Проверяем регистрацию пользователя с отправкой подтверждения по почте http://prntscr.com/p82h0d
+7.5 Проверим регистрацию пользователя с неправильным возрастом http://prntscr.com/p82ojc
+
+Не исправлял ошибку в функции get_hot_product(), так как у меня нет такого функционала. Вместо этого, у меня на странице
+товара выводится лейбл (новинка, популярный, скидка и др.), в зависимости от того, что отмечено у товара в базе данных.
+
+8. Тестирование методов моделей успешно, хотя у меня вообще сайт про телефоны http://prntscr.com/p831e4

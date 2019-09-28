@@ -1,0 +1,14 @@
+{% extends 'authapp/base.html' %}
+{% load staticfiles %}
+
+
+{% block content %}
+    <form class="form-horizontal" action="{% url 'auth:update' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <img class="user_avatar" src="/media/{{ user.avatar|default:'images_products/no_image.jpg' }}">
+        {{ profile_form.as_p }}
+        <input class="header_textarea_button_slider" type="submit" value="Сохранить изменения">
+    </form>
+
+{% endblock %}

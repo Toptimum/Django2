@@ -1,0 +1,55 @@
+ВСПОМОГАТЕЛЬНЫЕ КОМАНДЫ:
+
+usertaras
+123taras789
+
+cd /home/usertaras/zhitnikov
+source django2/bin/activate
+
+python manage.py runserver 192.168.0.79
+
+sudo systemctl restart gunicorn
+
+
+КЭШИРОВАНИЕ ПРОЕКТА:
+
+1. Время выполнения запросов для "тяжелого" заказа http://prntscr.com/p61hn3 69,45 ms (65 запросов including 58 similar
+    and 58 duplicates).
+
+2. Для двух методов get_total_quantity и get_total_cost включили кэширование вычисляемых полей и улучшили результат в 2
+    раза http://prntscr.com/p61jjq 32,82 ms (25 запросов including 18 similar).
+
+3. Проведем нагрузочное тестирование siege -f /home/usertaras/zhitnikov/checking_urls.txt -d1 -r5 -c25
+   Ранее проект выдавал следующие результаты http://prntscr.com/p5p048 - Failed transactions: 220, Longest transaction: 1,54
+   А теперь http://prntscr.com/p61lmk - Failed transactions: 0, Longest transaction: 23,65.
+
+4. Кеширование в шаблонах при помощи тега «with». Методы get_total_quantity и get_total_cost объединили в один get_summary().
+    Редактирование заказа занимало http://prntscr.com/p62c37 43,04 ms (25 запросов including 20 similar and 2 duplicates),
+    теперь http://prntscr.com/p6cift 28,43 ms (23 запроса including 18 similar). В итоге, ускорение на 15 мс.
+
+Кеширование при помощи Memcached
+
+5. Низкоуровневое кеширование:
+5.1 На странице каталога есть динамические элементы: главное меню, меню категорий, товары и
+    меню инфостраниц в подвале. Все эти функции переписали с использованием кэша. Ранее страница каталога загружалась
+    http://prntscr.com/p6cpnn 20,58 ms (11 запросов), а теперь загружается за http://prntscr.com/p6cwnx 16,04 ms (7 запросов).
+    В итоге, ускорение на 4 мс.
+5.2 Кстати, эти же блоки используются и на других страницах. Например, раньше главная грузилась
+    за http://prntscr.com/p5n0s4 22,35 ms (14 запросов including 5 similar and 5 duplicates), а теперь грузится за
+    http://prntscr.com/p6cxj9 16,43 ms (8 запросов). В итоге, ускорение 6 мс.
+
+6. Кеширование фрагментов шаблона. На странице редактирования заказа http://prntscr.com/p6d1if для ordersapp/order_form.html
+    составляло 990,7 мс. После кеширования в шаблоне поля формы со списком продуктов не дало результатов, а даже немного
+    результат ухудшился до 941,2 мс.
+
+7. Кеширование контроллеров:
+7.1 Информационная страница грузилась http://prntscr.com/p6lqhk 9,68 ms (5 запросов). Применили декоратор cache_page для
+    инфостраниц http://prntscr.com/p6lxjp и выполнение стало 0 queries in 0 mc.
+7.2 Раньше страница товара формировалась http://prntscr.com/p6o5fv 15,10 ms (7 запросов), после применения cache_page и
+    повторной загрузке страницы данные берутся из кэша http://prntscr.com/p6o5z1
+
+===== Не получилось реализовать:
+
+7.3 Попытался применить кэширование для каталога товаров, но не работает https://prnt.sc/p6mq8w - пришлось откатить.
+
+8. Кэширование всего сайта не выполнял - времени не хватает.

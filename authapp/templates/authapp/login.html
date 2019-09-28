@@ -1,0 +1,17 @@
+{% extends 'authapp/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<form class="form-horizontal" action="{% url 'auth:login' %}" method="post">
+    {% csrf_token %}
+    {% if next %}
+        <input type="hidden" name="next" value="{{ next }}">
+    {% endif %}
+    {{ form.as_p }}
+    <br>
+    <input class="header_textarea_button_slider" type="submit" value="Войти">
+    <p>Другие способы аутентификации:</p>
+    <a class="header_textarea_button_slider" href="{% url 'social:begin' 'vk-oauth2' %}?next=/">Вход через ВКонтакте</a>
+    <br>или<br><a href="{% url 'auth:register' %}" class="products_explore_all">Зарегистироваться</a>
+</form>
+{% endblock %}

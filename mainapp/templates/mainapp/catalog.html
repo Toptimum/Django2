@@ -1,0 +1,49 @@
+{% extends 'mainapp/base.html' %}
+{% load staticfiles %}
+{% block header1_page %}<h1 class="title_inner_page">{{ header1 }}</h1>{% endblock %}
+{% block content %}
+<!-- Trending products -->
+<div class="trending_products padding_site">
+    <div class="trending_products">
+        <ul class="trending_products_menu">
+            {% for category in categories %}
+            <li class="trending_products_menu_li">
+                <a href="{% url 'main:category' category.pk %}"
+                   class="trending_products_menu_a{% if request.resolver_match.url_name == category.link_category or request.resolver_match.kwargs.pk|add:0 == category.pk %}_current
+                   {% endif %}">{{ category.name_category }}</a>
+            </li>
+            {% endfor %}
+            <!-- li class="trending_products_menu_li"><a href="#" class="trending_products_menu_a_current">Все iPhone</a></li>
+            <li class="trending_products_menu_li"><a href="#" class="trending_products_menu_a">6</a></li-->
+        </ul>
+    </div>
+
+    <!-- Products -->
+    <ul class="trending_products_6_products_ul">
+        {% for product in products %}
+        <li class="trending_products_6_products_product_li">
+            <a href="{% url 'main:product' product.pk %}" class="trending_products_6_products_product_a"
+               title="{{ product.name_product }} - {{ product.price_product }} руб.">
+                <img src="/media/{{ product.image_product }}" alt="{{ product.name_product }}"
+                     class="trending_products_6_products_product_img">
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <div class="paginator trending_products_load">
+        {% if products.has_previous %}
+        <a href="{% url 'main:category_paginator' category.pk products.previous_page_number %}">< Предыдущая</a>
+        {% endif %}
+        | <span class="current">Cтраница {{ products.number }} из {{ products.paginator.num_pages }}</span> |
+        {% if products.has_next %}
+        <a href="{% url 'main:category_paginator' category.pk products.next_page_number %}">Следующая ></a>
+        {% endif %}
+    </div>
+
+    <!--div class="trending_products_load"><a href="#" class="trending_products_load_a" title="Загрузить еще товары"><i
+            class="fas fa-sync-alt"></i></a></div-->
+</div>
+
+{% include 'mainapp/includes/inc_2_banners.html' %}
+{% endblock %}

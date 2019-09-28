@@ -1,0 +1,125 @@
+{% extends 'mainapp/base.html' %}
+{% load staticfiles %}
+{% block type_header %}slider{% endblock %}
+{% block text_slider %}
+<div class="header_textarea">
+    <span class="header_textarea_mini_title">Будь в тренде</span>
+    <p class="header_textarea_main_title">iPhone XR</p>
+    <p class="header_textarea_text">Лучший iPhone из когда-либо созданных. Самые передовые технологии в новом корпусе.
+        Новый iPhone XR</p>
+    <a href="/product/11/" class="header_textarea_button_slider">Подробнее ></a>
+</div>
+
+<div class="pagination_slider">
+    <a href="#" class="pagination_slider_a"></a>
+    <a href="#" class="pagination_slider_a_current"></a>
+    <a href="#" class="pagination_slider_a"></a>
+</div>
+{% endblock %}
+{% block content %}
+<!-- Featured products -->
+<div class="featured_products padding_site">
+    <div class="featured_products_navigation">
+        <div class="featured_products_navigation_tabs">
+            <a href="#" class="featured_products_navigation_tab_active">Новинки</a><a href="#"
+                                                                                      class="featured_products_navigation_tab">Скидки</a>
+        </div>
+        <a href="{% url 'main:category' 1 %}" class="products_explore_all">Все модели ></a>
+    </div>
+
+    <ul class="featured_products_4_products_ul">
+        {% for product in new_products|slice:":4" %}
+        <li class="featured_products_4_products_product_li"
+            style="background-image: url('/media/{{ product.image_product }}');">
+            <div class="featured_products_4_products_product_description">
+                <a href="{% url 'main:product' product.pk %}" class="featured_products_4_products_product_description_button">></a>
+                <span class="featured_products_4_products_product_description_title">{{ product.name_product }}</span>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% include 'mainapp/includes/inc_2_banners.html' %}
+
+<!-- Trending products -->
+<div class="trending_products padding_site">
+    <div class="trending_products_titles">
+        <span class="trending_products_title">Популярные модели iPhone</span>
+        <a href="{% url 'main:category' 1 %}" class="products_explore_all">Все модели ></a>
+    </div>
+    <ul class="trending_products_6_products_ul">
+        {% for product in popular_products|slice:":6" %}
+        <li class="trending_products_6_products_product_li">
+            <a href="{% url 'main:product' product.pk %}" class="trending_products_6_products_product_a"
+               title="{{ product.name_product }} - {{ product.price_product }} руб.">
+                <img src="/media/{{ product.image_product }}" alt="{{ product.name_product }}"
+                     class="trending_products_6_products_product_img">
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<!-- Hot deal slider -->
+<div class="hot_deal_slider padding_site">
+    <div></div>
+    <div class="hot_deal_slider_textarea">
+        <span class="hot_deal_slider_textarea_mini_title">Новая</span>
+        <p class="hot_deal_slider_textarea_main_title">Коллекция XR</p>
+        <p class="hot_deal_slider_textarea_text">Представляем новинку 2019 года! Коллекция самых современных iPhone XR в красочных цветах.</p>
+        <a href="/category/8/" class="hot_deal_slider_textarea_button_slider">Восхититься;)</a>
+    </div>
+
+    <div class="pagination_slider">
+        <a href="#" class="pagination_slider_a"></a>
+        <a href="#" class="pagination_slider_a_current"></a>
+        <a href="#" class="pagination_slider_a"></a>
+    </div>
+</div>
+
+<!-- Exclusive 5 products -->
+<div class="trending_products padding_site">
+    <div class="trending_products_titles">
+        <span class="trending_products_title">Эксклюзивные модели</span>
+    </div>
+
+    <div class="exclusive_5_products">
+        <div class="exclusive_5_products_block1">
+            <div class="exclusive_5_products_block_textarea">
+                <span class="exclusive_products_block_textarea_mini_title">Эксклюзив</span>
+                <p class="exclusive_products_block_textarea_main_title">Голубой XR</p>
+                <p class="exclusive_products_block_textarea_text">Новый цвет XR. Впервые в истории Apple небесно-голубой iPhone.</p>
+                <a href="/product/13/" class="exclusive_products_block_textarea_button">Посмотреть ></a>
+            </div>
+        </div>
+
+        <ul class="exclusive_5_products_block2">
+            {% for product in exclusive_products|slice:":4" %}
+            <li class="featured_products_4_products_product_li"
+                style="background-image: url('/media/{{ product.image_product }}');">
+                <div class="featured_products_4_products_product_description">
+                    <a href="{% url 'main:product' product.pk %}" class="featured_products_4_products_product_description_button">></a>
+                    <span class="featured_products_4_products_product_description_title">{{ product.name_product }}</span>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<!-- Banner of application -->
+<div class="banner_mobile_app padding_site">
+    <div class="banner_mobile_app_textarea">
+        <span class="banner_mobile_app_textarea_mini_title">Мобильное приложение</span>
+        <p class="banner_mobile_app_textarea_main_title">Находи. Выбирай.<br>Покупай.</p>
+        <p class="banner_mobile_app_textarea_text">Наш магазин всегда под рукой.</p>
+    </div>
+    <div class="banner_mobile_app_buttons">
+        <a href="#" class="banner_mobile_app_textarea_button_app_store" title="Скачать приложение в App Store"><img
+                src="{% static 'images/img_app_store.jpg' %}" alt="Скачать приложение в App Store"></a>
+        <a href="#" class="banner_mobile_app_textarea_button_google_play" title="Скачать приложение в Google Play"><img
+                src="{% static 'images/img_google_play.jpg' %}" alt="Скачать приложение в Google Play Market"></a>
+    </div>
+</div>
+{% endblock %}
